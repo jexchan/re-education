@@ -1,1 +1,1 @@
-rvm use --create 1.9.3@re-education
+rvm use ruby-1.9.3p286@global

@@ -1,6 +1,10 @@
 require 'bundler/capistrano'
 require "rvm/capistrano"
 
+set :bundle_dir,     ""         # install into "system" gems
+set :bundle_flags,   "--quiet"  # no verbose output
+set :bundle_without, []         # bundle all gems (even dev & test)
+
 # set :rvm_ruby_string, 'ruby-1.9.3-p286@global'
 set :rvm_type, :system
 set :application, "newclass.org"

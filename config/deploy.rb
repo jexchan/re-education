@@ -1,26 +1,18 @@
-# set :bundle_cmd, "/usr/local/rvm/gems/ruby-1.9.3-p286@global/bin/bundle"
-# set :bundle_dir, "/usr/local/rvm/gems/ruby-1.9.3-p286"
-# set :bundle_dir,     ""         # install into "system" gems
-# set :bundle_flags,   "--quiet"  # no verbose output
-# set :bundle_without, []         # bundle all gems (even dev & test)
 require 'bundler/capistrano'
 require "rvm/capistrano"
 
-
 set :rvm_ruby_string, 'ruby-1.9.3-p286@global'
 set :rvm_type, :system
+
 set :application, "newclass.org"
 set :scm, :git
 set :repository,  "git@github.com:jexchan/re-education.git"
 set :branch, 'master'
 
+# use this setting for rbenv
 # set :default_environment, {
 #   'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 # }
-
-# set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
-# set :rvm_type, :system
-# set :rvm_bin_path, "$HOME/bin"
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -37,7 +29,6 @@ set :keep_release, 5
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-# Target ruby version
 role :web, "42.121.105.39"                          # Your HTTP server, Apache/etc
 role :app, "42.121.105.39"                          # Your HTTP server, Apache/etc
 role :db, "42.121.105.39"                          # Your HTTP server, Apache/etc
@@ -56,13 +47,19 @@ namespace :deploy do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
     # run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
-  desc "Copy the database.yml file into the latest release"
-  task :copy_in_database_yml do
-    # run "rm #{release_path}/config/database.yml"
-    run "cp #{shared_path}/config/database.yml #{release_path}/config/"
-    # run "cp #{shared_path}/config/database.yml #{latest_release}/config/"
+
+  desc "Make symlink for database yaml"
+  task :db_symlink do
+    run "ln -nfs #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
   end
+
+  desc "Make symlink for uploaded files"
+  task :uploader_symlink do
+    run "ln -nfs #{shared_path}/public/uploads #{latest_release}/public/"
+  end 
 end
 
 # before "deploy:assets:precompile", "deploy:copy_in_database_yml"
-after "bundle:install", "deploy:copy_in_database_yml"
+after "bundle:install", 
+      "deploy:db_symlink",
+      "deploy:uploader_symlink"

@@ -55,6 +55,7 @@ namespace :deploy do
 
   desc "Make symlink for uploaded files"
   task :uploader_symlink do
+    run "rm -rf #{latest_release}/public/uploads"
     run "ln -nfs #{shared_path}/public/uploads #{latest_release}/public/"
   end 
 end

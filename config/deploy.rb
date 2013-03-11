@@ -57,11 +57,11 @@ namespace :deploy do
   end
   desc "Copy the database.yml file into the latest release"
   task :copy_in_database_yml do
-    run "rm #{release_path}/config/database.yml"
+    # run "rm #{release_path}/config/database.yml"
     run "cp #{shared_path}/config/database.yml #{release_path}/config/"
     # run "cp #{shared_path}/config/database.yml #{latest_release}/config/"
   end
 end
 
 # before "deploy:assets:precompile", "deploy:copy_in_database_yml"
-# after "bundle:install", "deploy:copy_in_database_yml"
+after "bundle:install", "deploy:copy_in_database_yml"

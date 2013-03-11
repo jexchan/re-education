@@ -1,8 +1,8 @@
-set :bundle_cmd, "/usr/local/rvm/gems/ruby-1.9.3-p286@global/bin/bundle"
-set :bundle_dir, "/usr/local/rvm/gems/ruby-1.9.3-p286"
+# set :bundle_cmd, "/usr/local/rvm/gems/ruby-1.9.3-p286@global/bin/bundle"
+# set :bundle_dir, "/usr/local/rvm/gems/ruby-1.9.3-p286"
 # set :bundle_dir,     ""         # install into "system" gems
-set :bundle_flags,   "--quiet"  # no verbose output
-set :bundle_without, []         # bundle all gems (even dev & test)
+# set :bundle_flags,   "--quiet"  # no verbose output
+# set :bundle_without, []         # bundle all gems (even dev & test)
 require 'bundler/capistrano'
 require "rvm/capistrano"
 

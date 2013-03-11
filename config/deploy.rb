@@ -1,10 +1,11 @@
 require 'bundler/capistrano'
 require "rvm/capistrano"
-
+# Development server info
+set :domain "newclass.org"
 set :rvm_ruby_string, 'ruby-1.9.3-p286@global'
 set :rvm_type, :system
 
-set :application, "newclass.org"
+set :application, "newclass"
 set :scm, :git
 set :repository,  "git@github.com:jexchan/re-education.git"
 set :branch, 'master'
@@ -18,20 +19,18 @@ set :branch, 'master'
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 set :user, "root"
 set :group, "root"
-set :deploy_to, "/var/www/newclass.org"
+set :deploy_to, "/var/www/#{domain}"
 # set :use_sudo, false
 
 set :deploy_via, :remote_cache
 # set :deploy_via, :copy
 # set :deploy_strategy, :export
-set :keep_release, 5
+set :keep_release, 3
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-role :web, "42.121.105.39"                          # Your HTTP server, Apache/etc
-role :app, "42.121.105.39"                          # Your HTTP server, Apache/etc
-role :db, "42.121.105.39"                          # Your HTTP server, Apache/etc
+server domain, :app, :web, :db, :primary => true
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"

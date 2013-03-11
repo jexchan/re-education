@@ -12,6 +12,7 @@ set :rvm_type, :system
 set :application, "newclass.org"
 set :scm, :git
 set :repository,  "git@github.com:jexchan/re-education.git"
+set :branch, 'master'
 
 # set :default_environment, {
 #   'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
@@ -29,8 +30,8 @@ set :deploy_to, "/var/www/newclass.org"
 # set :use_sudo, false
 
 set :deploy_via, :remote_cache
-set :deploy_via, :copy
-set :deploy_strategy, :export
+# set :deploy_via, :copy
+# set :deploy_strategy, :export
 set :keep_release, 5
 
 default_run_options[:pty] = true

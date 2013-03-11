@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 require "rvm/capistrano"
 # Development server info
-set :domain "newclass.org"
+set :domain, "newclass.org"
 set :rvm_ruby_string, 'ruby-1.9.3-p286@global'
 set :rvm_type, :system
 

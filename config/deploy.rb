@@ -1,15 +1,11 @@
 require 'bundler/capistrano'
 require "rvm/capistrano"
-require "whenever/capistrano"
 
 # Development server info
-set :domain, "newclass.org"
 set :rvm_ruby_string, 'ruby-1.9.3-p286@global'
 set :rvm_type, :system
 
-set :whenever_command, "bundle exec whenever"
-
-set :application, "newclass"
+set :application, "newclass.org"
 set :scm, :git
 set :repository,  "git@github.com:jexchan/re-education.git"
 set :branch, 'master'
@@ -19,11 +15,22 @@ set :branch, 'master'
 #   'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 # }
 
+
+desc "Run on staging server" 
+task :staging do 
+  set :deploy_to, "/var/www/#{application}/staging"
+end 
+ 
+desc "Run on production server" 
+task :production do 
+  set :deploy_to, "/var/www/#{application}/production"
+end 
+
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 set :user, "root"
 set :group, "root"
-set :deploy_to, "/var/www/#{domain}"
+# set :deploy_to, "/var/www/#{application}"
 # set :use_sudo, false
 
 set :deploy_via, :remote_cache
@@ -34,7 +41,7 @@ set :keep_release, 3
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-server domain, :app, :web, :db, :primary => true
+server application, :app, :web, :db, :primary => true
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"

@@ -1,9 +1,13 @@
 require 'bundler/capistrano'
 require "rvm/capistrano"
+require "whenever/capistrano"
+
 # Development server info
 set :domain, "newclass.org"
 set :rvm_ruby_string, 'ruby-1.9.3-p286@global'
 set :rvm_type, :system
+
+set :whenever_command, "bundle exec whenever"
 
 set :application, "newclass"
 set :scm, :git

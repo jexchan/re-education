@@ -64,4 +64,4 @@ namespace :deploy do
 end
 
 # before "deploy:assets:precompile", "deploy:copy_in_database_yml"
-after "bundle:install", "deploy:copy_in_database_yml"
+# after "bundle:install", "deploy:copy_in_database_yml"
